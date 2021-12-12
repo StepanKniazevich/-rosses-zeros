@@ -6,26 +6,26 @@ const gameBox = document.getElementsByClassName("cross__block");
 
 let count = 0;
 
-let crossOut = 0;
 
-let zerosWin = [0, 0, 0];
-let crossesWin = [0, 0, 0];
+
 
 function checkWin() {
 
 
+    let zerosWin = [[0, 0, 0], [0, 0, 0], [0, 0]];
+    let crossesWin = [[0, 0, 0], [0, 0, 0], [0, 0]];
 
 
     for (let i = 0; i < 3; i++) {
 
-
+        let n = 0;
         switch (gameBox[i].firstChild.className) {
 
 
             case "zeros": {
 
-                zerosWin[0]++;
-                if (zerosWin[0] === 3) {
+                zerosWin[n][0]++;
+                if (zerosWin[n][0] === 3) {
                     return { win: "zeros", index: [i - 2, i - 1, i] }
                 } break;
             }
@@ -33,8 +33,8 @@ function checkWin() {
 
 
             case "crosses": {
-                crossesWin[0]++; console.log(crossesWin[0]);
-                if (crossesWin[0] === 3) {
+                crossesWin[n][0]++;
+                if (crossesWin[n][0] === 3) {
 
                     return { win: "crosses", index: [i - 2, i - 1, i] }
 
@@ -42,22 +42,18 @@ function checkWin() {
             }
         }
 
-
-
-
-
         switch (gameBox[i + 3].firstChild.className) {
 
             case "crosses": {
-                crossesWin[1]++;
-                if (crossesWin[1] === 3) {
+                crossesWin[n][1]++;
+                if (crossesWin[n][1] === 3) {
                     return { win: "crosses", index: [i + 3 - 2, i + 3 - 1, i + 3] }
                 } break;
             }
 
             case "zeros": {
-                zerosWin[1]++;
-                if (zerosWin[1] === 3) {
+                zerosWin[n][1]++;
+                if (zerosWin[n][1] === 3) {
                     return { win: "zeros", index: [i + 3 - 2, i + 3 - 1, i + 3] }
                 } break;
             }
@@ -67,21 +63,48 @@ function checkWin() {
         switch (gameBox[i + 6].firstChild.className) {
 
             case "crosses": {
-                crossesWin[2]++;
-                if (crossesWin[2] === 3) {
+                crossesWin[n][2]++;
+                if (crossesWin[n][2] === 3) {
                     return { win: "crosses", index: [i + 6 - 2, i + 6 - 1, i + 6] }
                 } break;
             }
 
             case "zeros": {
-                zerosWin[2]++;
-                if (zerosWin[2] === 3) {
+                zerosWin[n][2]++;
+                if (zerosWin[n][2] === 3) {
                     return { win: "zeros", index: [i + 6 - 2, i + 6 - 1, i + 6] }
                 } break;
             }
 
         }
 
+
+        // Перевірка по вертикалі
+
+        n = 1;
+        for (let j = 0; j <= 6; j += 3) {
+
+
+            switch (gameBox[i + j].firstChild.className) {
+
+                case "crosses": {
+                    console.log(crossesWin[n][i]++ + "FF");
+                    if (crossesWin[n][i] === 3) {
+                        return { win: "crosses", index: [i + j - 6, i + j - 3, i + j] }
+                    } break;
+                }
+
+                case "zeros": {
+                    console.log(zerosWin[n][i]++);
+                    if (zerosWin[n][i] === 3) {
+                        //  console.log(zerosWin[3]);
+
+                        return { win: "zeros", index: [i + j - 6, i + j - 3, i + j] }
+                    } break;
+                }
+
+            }
+        }
 
 
 
@@ -94,7 +117,7 @@ function checkWin() {
         // const compare = (gameBox[i].firstChild.className === "crosses") ?
         //     crossOutCrosses++ : crossOutZeros++;
     }
-    zerosWin = [0, 0, 0]; crossesWin = [0, 0, 0];
+
     // console.log(gameBox[0].firstChild.className);
 
 
