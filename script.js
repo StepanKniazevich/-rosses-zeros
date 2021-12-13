@@ -18,16 +18,15 @@ function clear() {
 
 function checkFull() {
 
-    let checkAll = false;
+    let check = true;
 
     for (let element of gameBox) {
         if (element.innerHTML === " ") {
-            check = true;
-            break;
+            check = false;
+            return check;
         }
-
     }
-
+    return check;
 }
 
 function checkWin() {
@@ -48,14 +47,14 @@ function checkWin() {
                 case "crosses": {
                     crossesWin[n][i]++;
                     if (crossesWin[n][i] === 3) {
-                        return { win: "crosses", index: [k + j - 2, k + j - 1, k + j] }
+                        return { win: "Crosses", index: [k + j - 2, k + j - 1, k + j] }
                     } break;
                 }
 
                 case "zeros": {
                     zerosWin[n][i]++;
                     if (zerosWin[n][i] === 3) {
-                        return { win: "zeros", index: [k + j - 2, k + j - 1, k + j] }
+                        return { win: "Zeros", index: [k + j - 2, k + j - 1, k + j] }
                     } break;
                 }
 
@@ -76,7 +75,7 @@ function checkWin() {
                 case "crosses": {
                     crossesWin[n][i]++;
                     if (crossesWin[n][i] === 3) {
-                        return { win: "crosses", index: [i + j - 6, i + j - 3, i + j] }
+                        return { win: "Crosses", index: [i + j - 6, i + j - 3, i + j] }
                     } break;
                 }
 
@@ -85,7 +84,7 @@ function checkWin() {
                     if (zerosWin[n][i] === 3) {
                         //  console.log(zerosWin[3]);
 
-                        return { win: "zeros", index: [i + j - 6, i + j - 3, i + j] }
+                        return { win: "Zeros", index: [i + j - 6, i + j - 3, i + j] }
                     } break;
                 }
 
@@ -98,7 +97,7 @@ function checkWin() {
             && (gameBox[4].firstChild.className === "crosses")
             && (gameBox[8].firstChild.className === "crosses")) {
 
-            return { win: "crosses", index: [0, 4, 8] }
+            return { win: "Crosses", index: [0, 4, 8] }
         }
 
 
@@ -106,7 +105,7 @@ function checkWin() {
             && (gameBox[4].firstChild.className === "zeros")
             && (gameBox[8].firstChild.className === "zeros")) {
 
-            return { win: "zeros", index: [0, 4, 8] }
+            return { win: "Zeros", index: [0, 4, 8] }
         }
 
 
@@ -115,7 +114,7 @@ function checkWin() {
             && (gameBox[4].firstChild.className === "crosses")
             && (gameBox[6].firstChild.className === "crosses")) {
 
-            return { win: "crosses", index: [2, 4, 6] }
+            return { win: "Crosses", index: [2, 4, 6] }
         }
 
 
@@ -123,7 +122,7 @@ function checkWin() {
             && (gameBox[4].firstChild.className === "zeros")
             && (gameBox[6].firstChild.className === "zeros")) {
 
-            return { win: "zeros", index: [2, 4, 6] }
+            return { win: "Zeros", index: [2, 4, 6] }
         }
 
 
@@ -162,15 +161,25 @@ container.addEventListener("click", (event) => {
 
 
 
-
-
-
-    if (checkWin() !== undefined) {
-
-        setInterval(() => {
+    let winner = checkWin();
+    if (winner !== undefined) {
+        setTimeout(() => {
+            alert(`${winner.win} won`);
             clear();
 
-        }, 4000)
+        }, 500)
+
+    }
+
+
+
+
+    else if (checkFull()) {
+        setTimeout(() => {
+            alert("Нічія")
+            clear();
+
+        }, 1000)
     }
 
 
