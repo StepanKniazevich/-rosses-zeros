@@ -90,61 +90,52 @@ function checkWin() {
 
             }
         }
+    }
+    //Перевірка по діагоналях
+    n = 2;
 
-        //Перевірка по діагоналі
+    for (let i = 0; i <= 8; i += 4) {
 
-        if ((gameBox[0].firstChild.className === "crosses")
-            && (gameBox[4].firstChild.className === "crosses")
-            && (gameBox[8].firstChild.className === "crosses")) {
+        switch (gameBox[i].firstChild.className) {
 
-            return { win: "Crosses", index: [0, 4, 8] }
+            case "crosses": {
+                console.log(crossesWin[n][0]);
+                crossesWin[n][0]++;
+                if (crossesWin[n][0] === 3) {
+                    return { win: "Crosses", index: [i - 8, i - 4, i] };
+                }
+                break;
+            }
+            case "zeros": {
+                zerosWin[n][0]++;
+                if (zerosWin[n][0] === 3) {
+                    return { win: "Zeros", index: [i - 8, i - 4, i] }
+                } break;
+            }
         }
-
-
-        if ((gameBox[0].firstChild.className === "zeros")
-            && (gameBox[4].firstChild.className === "zeros")
-            && (gameBox[8].firstChild.className === "zeros")) {
-
-            return { win: "Zeros", index: [0, 4, 8] }
-        }
-
-
-
-        if ((gameBox[2].firstChild.className === "crosses")
-            && (gameBox[4].firstChild.className === "crosses")
-            && (gameBox[6].firstChild.className === "crosses")) {
-
-            return { win: "Crosses", index: [2, 4, 6] }
-        }
-
-
-        if ((gameBox[2].firstChild.className === "zeros")
-            && (gameBox[4].firstChild.className === "zeros")
-            && (gameBox[6].firstChild.className === "zeros")) {
-
-            return { win: "Zeros", index: [2, 4, 6] }
-        }
-
-
-
-
-
-
-
-
-
-
-        //  console.log(crossesWin, zerosWin)
-
-
-
-        // const compare = (gameBox[i].firstChild.className === "crosses") ?
-        //     crossOutCrosses++ : crossOutZeros++;
     }
 
-    // console.log(gameBox[0].firstChild.className);
+    for (let i = 2; i <= 6; i += 2) {
 
+        switch (gameBox[i].firstChild.className) {
 
+            case "crosses": {
+                crossesWin[n][1]++;
+                if (crossesWin[n][1] === 3) {
+                    return { win: "Crosses", index: [i - 8, i - 4, i] };
+                }
+                break;
+            }
+            case "zeros": {
+                zerosWin[n][1]++;
+                if (zerosWin[n][1] === 3) {
+                    return { win: "Zeros", index: [i - 8, i - 4, i] }
+                } break;
+            }
+
+        }
+
+    }
 }
 
 
@@ -157,14 +148,16 @@ container.addEventListener("click", (event) => {
         }
         else { event.target.innerHTML = ('<img src="icons/crosses.png" class = "crosses">') }
         count++;
+
     }
 
 
 
     let winner = checkWin();
+
     if (winner !== undefined) {
         setTimeout(() => {
-            alert(`${winner.win} won`);
+            alert(`${winner.win} win`);
             clear();
 
         }, 500)
